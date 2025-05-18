@@ -12,7 +12,7 @@ const Bottles = () => {
   }, []);
   return (
     <div>
-      <h2>Bottles here : {bottles.length} </h2>
+      <h2>Total Bottle : {bottles.length} </h2>
       <div className="bottle-container">
         {bottles.map((bottle) => (
           <Bottle bottle={bottle} key={bottle.id}></Bottle>
