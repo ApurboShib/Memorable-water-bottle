@@ -1,6 +1,6 @@
 import "./Bottle.css";
 
-const Bottle = ({ bottle }) => {
+const Bottle = ({ bottle, HandleAddToCart }) => {
   //   console.log(bottle);
   // make it distructured.
 
@@ -11,6 +11,7 @@ const Bottle = ({ bottle }) => {
 
       <img src={img} alt="" />
       <p>price : ${price}</p>
+      <button onClick={() => HandleAddToCart(bottle)}>Purchese</button>
     </div>
   );
 };
