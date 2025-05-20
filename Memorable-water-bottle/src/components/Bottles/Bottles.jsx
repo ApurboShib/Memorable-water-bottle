@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import Bottle from "../Bottle/Bottle";
 import "./Bottles.css";
 import { addToLocalStorage, getStoredCart } from "../../utilities/localStorage";
+import Cart from "../cart/Cart";
 const Bottles = () => {
   // Step 1: create state to store bottle data
   const [bottles, setBottles] = useState([]);
@@ -23,7 +24,20 @@ const Bottles = () => {
     // const storedCart = getStoredCart();
     if (bottles.length > 0) {
       const storedCart = getStoredCart();
-      console.log(storedCart);
+      console.log(storedCart, bottles);
+      // delacare an empty array to store the added bottles
+      const savedCart = [];
+      for (const id of storedCart) {
+        console.log(id);
+        const addedBottle = bottles.find((bottle) => bottle.id === id);
+        // console.log(addedBottle);
+        if (addedBottle) {
+          savedCart.push(addedBottle);
+        }
+      }
+      console.log("saved card", savedCart);
+      // set the savedCart to cart
+      setCart(savedCart);
     }
   }, [bottles]);
 
@@ -40,7 +54,8 @@ const Bottles = () => {
     <div>
       {/* Step 6: show how many bottles were loaded */}
       <h2>Total Bottle : {bottles.length} </h2>
-      <h4 className="cart">Cart : {cart.length} </h4>
+    <Cart cart={cart}></Cart>
+
       <div className="bottle-container">
         {/* Step 7: loop through bottles and show them */}
         {bottles.map((bottle) => (
