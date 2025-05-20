@@ -1,0 +1,68 @@
+
+TITLE: Full Guide - Load Data, Store in LS, Display
+
+
+1. LOAD DATA
+------------
+
+Step 1: Create state to store the data.
+    const [products, setProducts] = useState([]);
+
+Step 2: Load data using useEffect
+    useEffect(() => {
+        fetch('products.json') // or your API endpoint
+            .then(res => res.json())
+            .then(data => setProducts(data));
+    }, []);
+
+Step 3: Render data using .map()
+    products.map(product => (
+        <Product product={product} key={product.id} />
+    ))
+
+Note:
+    - Always include a unique 'key' prop in .map()
+
+
+2. STORE DATA IN LOCAL STORAGE
+------------------------------
+
+Step 1: Retrieve data from Local Storage
+    const getStoredCart = () => {
+        const storedCart = localStorage.getItem('cart');
+        return storedCart ? JSON.parse(storedCart) : [];
+    }
+
+Step 2: Save data to Local Storage
+    const saveCartToLS = (cart) => {
+        const cartString = JSON.stringify(cart);
+        localStorage.setItem('cart', cartString);
+    }
+
+Step 3: Add item to cart and save
+    const addToLocalStorage = (id) => {
+        const cart = getStoredCart();
+        cart.push(id);
+        saveCartToLS(cart);
+    }
+
+
+3. SHOW STORED DATA IN UI
+-------------------------
+
+Step 1: Load stored cart and match with full product info
+    useEffect(() => {
+        if (products.length > 0) {
+            const storedCart = getStoredCart();
+            const savedCart = storedCart.map(id =>
+                products.find(product => product.id === id)
+            ).filter(Boolean);
+            setCart(savedCart);
+        }
+    }, [products]);
+
+Step 2: Display cart items
+    cart.map(item => (
+        <div key={item.id}>{item.name}</div>
+    ))
+
